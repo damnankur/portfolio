@@ -24,7 +24,6 @@ const languageCards: LanguageCard[] = [
             { id: "cpp", label: "C++" },
             { id: "mysql", label: "MySQL" },
             { id: "redis", label: "Redis" },
-            { id: "aws", label: "AWS" },
             { id: "typescript", label: "TypeScript" },
             { id: "javascript", label: "JavaScript" },
             { id: "html", label: "HTML" },
