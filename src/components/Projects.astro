@@ -1,0 +1,112 @@
+---
+import type { Project } from '../lib/supabase.ts';
+
+export interface Props {
+  projects?: Project[];
+}
+
+// Read projects passed in by the index page (which calls getProjects() in its
+// frontmatter). Do NOT call getProjects() here — the prop is the intended API.
+const { projects } = Astro.props;
+const items: Project[] = projects ?? [];
+const hasItems = items.length > 0;
+---
+
+<!--
+  Projects.astro — responsive grid of project cards sourced from Supabase CMS.
+  Empty/graceful fallback when the CMS is not seeded or the prop is absent.
+-->
+<section id="projects" aria-label="Projects" class="section-pad w-full">
+  <div class="eyebrow">projects</div>
+  <p class="mt-2 max-w-2xl text-sm italic text-stone">live from my CMS</p>
+
+  {hasItems ? (
+    <div class="mt-10 grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((project) => (
+        <article
+          class:list={[
+            "relative group flex min-h-[22rem] flex-col gap-4 rounded-lg border border-line bg-ink-2 p-6",
+            project.featured
+              ? "border-l-4 border-l-amber"
+              : "",
+          ]}
+        >
+          {project.featured && (
+            <span
+              class="absolute top-4 right-4 inline-flex items-center mono text-[0.6rem] uppercase tracking-wider text-amber bg-ink-3 px-2 py-0.5 rounded"
+              aria-hidden="true"
+            >
+              featured
+            </span>
+          )}
+
+          <header class="flex flex-col">
+            <h3
+              class="display text-xl text-paper transition-colors group-hover:text-amber-2 motion-reduce:transition-none"
+            >
+              {project.title}
+            </h3>
+            <p class="mt-1 text-sm text-stone">
+              {project.tagline}
+            </p>
+          </header>
+
+          <p class="text-sm text-paper/80">
+            {project.description}
+          </p>
+
+          <div class="flex flex-wrap gap-1.5">
+            {(project.tech ?? []).map((tech) => (
+              <span class="mono text-[0.7rem] text-stone bg-ink-3 px-2 py-1 rounded">
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          <ul class="flex flex-col gap-2">
+            {(project.highlights ?? []).slice(0, 3).map((highlight) => (
+              <li class="flex items-start gap-2 text-sm">
+                <span
+                  aria-hidden="true"
+                  class="mt-0.5 shrink-0 text-amber/80"
+                >▸</span>
+                <span class="text-stone leading-relaxed">{highlight}</span>
+              </li>
+            ))}
+          </ul>
+
+          {(project.live_url || project.repo_url) && (
+            <div class="mt-auto flex gap-4 pt-2">
+              {project.live_url && (
+                <a
+                  href={project.live_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mono text-xs text-amber transition-colors hover:text-amber-2 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-ink-2"
+                  aria-label={`Live site for ${project.title}`}
+                >
+                  live
+                </a>
+              )}
+              {project.repo_url && (
+                <a
+                  href={project.repo_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mono text-xs text-amber transition-colors hover:text-amber-2 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-ink-2"
+                  aria-label={`Source code for ${project.title}`}
+                >
+                  repo
+                </a>
+              )}
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  ) : (
+    <p class="mt-10 text-center text-stone">
+      Projects loading from CMS
+    </p>
+  )}
+</section>

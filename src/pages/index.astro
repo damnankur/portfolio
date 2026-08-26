@@ -1,0 +1,44 @@
+---
+// Home page — composes the one-page portfolio.
+// Section components (Hero, About, etc.) own their own <section id="...">
+// and pull static content from src/lib/site.ts.
+import { SITE } from '../lib/site';
+import { getProjects } from '../lib/supabase';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Skills from '../components/Skills.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+// Projects load from the Supabase CMS at build time.
+const projects = await getProjects();
+
+const description = `${SITE.role} — ${SITE.blurb}`;
+---
+
+<!--
+  BaseLayout (title + meta) wraps the whole page. Nav and Footer set the
+  top/bottom chrome; <main> holds the one-page section flow separated by
+  .section-pad vertical rhythm.
+-->
+<BaseLayout title={SITE.name} description={description}>
+  <div class="grain">
+    <Nav />
+
+    <main>
+      <Hero />
+      <About />
+      <Experience />
+      <Projects projects={projects} />
+      <Skills />
+      <Contact />
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>

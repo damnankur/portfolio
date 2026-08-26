@@ -1,0 +1,58 @@
+---
+import { SITE, STATS } from '../lib/site.ts';
+---
+
+<section id="top" aria-label="Introduction" class="section-pad w-full">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-5 md:px-8">
+    <div class="max-w-3xl">
+      <p class="eyebrow">// systems engineer — new delhi, india</p>
+
+      <h1 class="display mt-6 text-5xl text-paper md:text-7xl">
+        {SITE.name}
+      </h1>
+
+      <p class="display mt-4 text-3xl text-stone md:text-4xl">
+        {SITE.role}
+      </p>
+
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-paper/85 md:text-lg">
+        {SITE.blurb}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        {SITE.resumeUrl && (
+          <a
+            href={SITE.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex mono text-xs uppercase tracking-wider rounded-md border border-amber bg-amber px-4 py-2.5 text-ink transition-colors hover:bg-amber-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+          >
+            Download Résumé
+          </a>
+        )}
+        <a
+          href={SITE.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mono text-xs uppercase tracking-wider text-stone underline decoration-amber/60 underline-offset-4 transition-colors hover:text-amber focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+        >
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Metric strip -->
+    <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-4">
+      {STATS.map((stat) => (
+        <div class="bg-ink-2 p-5">
+          <dt class="order-2 mono text-xs uppercase tracking-wider text-dim">
+            {stat.label}
+          </dt>
+          <dd class="display order-1 text-3xl text-amber md:text-4xl">
+            {stat.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

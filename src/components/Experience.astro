@@ -1,0 +1,57 @@
+---
+import { EXPERIENCE } from '../lib/site.ts';
+---
+<!--
+  Experience.astro — editorial, clean timeline of backend/systems roles.
+  Source of truth is src/lib/site.ts (exact resume wording, preserved verbatim).
+-->
+<section
+  id="experience"
+  aria-label="Professional experience"
+  class="section-pad w-full"
+>
+  <div class="eyebrow">experience</div>
+
+  <div class="mt-12 flex flex-col">
+    {EXPERIENCE.map((item, index) => (
+      <article
+        class:list={[
+          "flex flex-col py-6",
+          index < EXPERIENCE.length - 1
+            ? "border-b border-line/60"
+            : "",
+        ]}
+      >
+        <!-- company + period on a row, split by a hairline divider -->
+        <header class="flex items-center gap-3">
+          <h3 class="display text-2xl text-paper md:text-3xl">
+            {item.company}
+          </h3>
+          <span class="self-stretch w-px bg-line/70"></span>
+          <time class="mono text-sm text-stone">
+            {item.period}
+          </time>
+        </header>
+
+        <!-- role + location as subtitle -->
+        <p class="mt-1 mono text-sm text-stone">
+          {item.role} · {item.location}
+        </p>
+
+        <!-- summary -->
+        <p class="mt-3 max-w-3xl text-sm text-paper/85">
+          {item.summary}
+        </p>
+
+        <!-- impact bullets -->
+        <ul class="mt-4 list-disc list-outside pl-5 space-y-2.5">
+          {item.points.map((point) => (
+            <li class="text-sm text-paper/90 leading-relaxed">
+              {point}
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>

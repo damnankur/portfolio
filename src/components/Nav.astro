@@ -1,0 +1,50 @@
+---
+import { SITE, NAV } from '../lib/site.ts';
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur-sm">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-5 py-4 md:px-8">
+    <!-- Brand -->
+    <a
+      href="#top"
+      class="mono text-sm text-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+      aria-label="Back to top"
+    >
+      <span class="text-amber">&gt;_</span> {SITE.name}
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Primary" class="hidden items-center gap-7 md:flex">
+      {NAV.map((item) => (
+        <a
+          href={`#${item.id}`}
+          class="mono text-[0.8rem] uppercase tracking-wider text-stone transition-colors hover:text-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+        >
+          {item.label}
+        </a>
+      ))}
+      {SITE.resumeUrl && (
+        <a
+          href={SITE.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mono text-xs uppercase tracking-wider rounded-md border border-amber px-3 py-1.5 text-amber transition-colors hover:bg-amber hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+        >
+          Résumé
+        </a>
+      )}
+    </nav>
+
+    <!-- Mobile resume button -->
+    {SITE.resumeUrl && (
+      <a
+        href={SITE.resumeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mono text-xs uppercase tracking-wider rounded-md border border-amber px-3 py-1.5 text-amber md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+      >
+        Résumé
+      </a>
+    )}
+  </div>
+</header>

@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Pal_ette — Patrick Heng-inspired: warm off-black + amber, editorial serif
+   ========================================================================== */
+@theme {
+  --color-ink: #0d0d0c;        /* page background (warm charcoal) */
+  --color-ink-2: #161614;      /* raised surface */
+  --color-ink-3: #1e1d1a;      /* cards / borders base */
+
+  --color-paper: #f2efe9;      /* warm off-white text */
+  --color-stone: #9a958a;      /* muted secondary text */
+  --color-dim: #6e6a61;        /* tertiary / placeholders */
+
+  --color-amber: #e0a458;      /* primary accent (warm amber) */
+  --color-amber-2: #f0c07e;    /* hover / highlight */
+
+  --color-line: #2a2925;       /* hairline borders */
+
+  /* Editorial type pairing */
+  --font-display: "Fraunces", "Georgia", serif;      /* big editorial headings */
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Menlo", monospace;
+  --font-body: "Inter", "system-ui", sans-serif;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-ink);
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
+
+/* Thin custom scrollbar, dark */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-3) transparent;
+}
+
+/* ==========================================================================
+   Typographic helpers
+   ========================================================================== */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Eyebrow label — small caps amber on hairline rules */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
+
+/* Hairline dividers */
+.divider {
+  border-top: 1px solid var(--color-line);
+}
+
+/* Faint grain overlay for warmth */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hidden pill-nav active marker */
+.anchor-active {
+  color: var(--color-amber);
+}
+
+/* Section spacer: consistent vertical rhythm */
+.section-pad {
+  padding-block: clamp(5rem, 12vw, 10rem);
+}

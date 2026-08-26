@@ -1,0 +1,40 @@
+---
+import { SITE } from '../lib/site.ts';
+---
+
+<section id="about" aria-label="About" class="section-pad w-full divider">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 md:px-8">
+    <p class="eyebrow">about</p>
+
+    <p class="display max-w-4xl text-3xl leading-tight text-paper md:text-5xl">
+      I build <em class="text-amber not-italic">low-latency, horizontally-scalable</em> systems — distributed messaging, streaming pipelines, and the algorithms that keep them fast.
+    </p>
+
+    <div class="max-w-3xl space-y-4 text-base leading-relaxed text-paper/80 md:text-lg">
+      <p>
+        I'm a Software Engineering undergrad at DTU (B.Tech SE, 2027) focused on backend
+        and systems work — Redis Pub/Sub, Kafka decoupling, WebSockets presence, fault-tolerant
+        monorepos. I've shipped these in production as an AI Associate Intern at NMG Technologies
+        and a web development intern at IIT Ropar (VLED Labs).
+      </p>
+      <p>
+        On the algorithmic side I hold Knight status on LeetCode (peak rating 1912, top 5%) and
+        have solved 600+ problems across platforms — the same rigor I bring to distributed systems
+        design and low-latency engineering.
+      </p>
+      <p>
+        I care about uptime, throughput, and clean failure modes: building systems that stay alive
+        when infrastructure doesn't.
+      </p>
+    </div>
+
+    {SITE.email && (
+      <a
+        href={`mailto:${SITE.email}`}
+        class="mono mt-2 text-sm text-amber transition-colors hover:text-amber-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+      >
+        {SITE.email}
+      </a>
+    )}
+  </div>
+</section>

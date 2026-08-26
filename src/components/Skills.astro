@@ -1,0 +1,22 @@
+---
+import { SKILLS } from '../lib/site.ts';
+---
+
+<section id="skills" aria-label="Skills" class="section-pad w-full divider">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 md:px-8">
+    <p class="eyebrow">skills</p>
+
+    <div class="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+      {SKILLS.map((group) => (
+        <div class="flex flex-col gap-3 bg-ink-2 p-6">
+          <h3 class="mono text-xs uppercase tracking-wider text-amber">
+            {group.category}
+          </h3>
+          <p class="text-sm leading-relaxed text-paper/85">
+            {group.items.join(' · ')}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

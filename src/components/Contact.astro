@@ -1,0 +1,50 @@
+---
+import { SITE } from '../lib/site.ts';
+---
+
+<section id="contact" aria-label="Contact" class="section-pad w-full divider">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 md:px-8">
+    <p class="eyebrow">contact</p>
+
+    <p class="display max-w-3xl text-3xl leading-tight text-paper md:text-5xl">
+      Open to backend & systems engineering roles in <em class="text-amber not-italic">quant / low-latency trading</em>.
+    </p>
+
+    <div class="flex flex-col gap-6">
+      {SITE.email && (
+        <a
+          href={`mailto:${SITE.email}`}
+          class="display inline-block text-2xl text-paper underline decoration-amber decoration-2 underline-offset-8 transition-colors hover:text-amber md:text-4xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+        >
+          {SITE.email}
+        </a>
+      )}
+
+      <ul class="flex flex-wrap gap-x-6 gap-y-3">
+        {SITE.profiles.map((p) => (
+          <li>
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mono text-sm uppercase tracking-wider text-stone transition-colors hover:text-amber focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+            >
+              {p.label} ↗
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {SITE.resumeUrl && (
+        <a
+          href={SITE.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-fit mono text-xs uppercase tracking-wider rounded-md border border-amber px-4 py-2.5 text-amber transition-colors hover:bg-amber hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+        >
+          Get my résumé → 
+        </a>
+      )}
+    </div>
+  </div>
+</section>
