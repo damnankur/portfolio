@@ -1,9 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = import.meta.env.SUPABASE_URL as string;
-const anonKey = import.meta.env.SUPABASE_ANON_KEY as string;
+const url = import.meta.env.SUPABASE_URL as string | undefined;
+const anonKey = import.meta.env.SUPABASE_ANON_KEY as string | undefined;
 
-export const supabase = createClient(url, anonKey);
+/** Lazy client — only created when both env vars are present. */
+const supabase =
+  url && anonKey ? createClient(url, anonKey) : null;
 
 export interface Project {
   id: number;
@@ -22,7 +24,7 @@ export interface Project {
 /** Fetch all projects for the CMS, sorted by the `order` column (featured first). */
 export async function getProjects(): Promise<Project[]> {
   // If Supabase vars are missing (e.g. local dev without .env), fail gracefully.
-  if (!url || !anonKey) {
+  if (!supabase) {
     console.warn('[supabase] SUPABASE_URL / ANON_KEY not set; returning empty projects.');
     return [];
   }
