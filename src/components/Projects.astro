@@ -10,103 +10,125 @@ export interface Props {
 const { projects } = Astro.props;
 const items: Project[] = projects ?? [];
 const hasItems = items.length > 0;
+const total = items.length;
 ---
 
 <!--
-  Projects.astro — responsive grid of project cards sourced from Supabase CMS.
-  Empty/graceful fallback when the CMS is not seeded or the prop is absent.
+  Projects.astro — editorial proof-trail ledger, matching Experience.
+  No cards: a mono-indexed list on hairline rules. Title is the dominant
+  mass, tech is inline mono, highlights use "+" markers like a commit log,
+  featured projects carry a ★ marker, links are amber mono.
 -->
 <section id="projects" aria-label="Projects" class="section-pad w-full">
-  <div class="eyebrow">projects</div>
-  <p class="mt-2 max-w-2xl text-sm italic text-stone">live from my CMS</p>
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-5 md:px-8">
+    <div class="flex items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow">// projects</p>
+        <h2 class="display mt-3 text-3xl text-paper md:text-5xl">
+          Things I've built
+        </h2>
+        <p class="mt-3 max-w-2xl text-sm text-stone">
+          Live from the Supabase CMS · deployed systems, not demos
+        </p>
+      </div>
+      {hasItems && (
+        <p class="mono hidden text-xs uppercase tracking-wider text-dim sm:block">
+          {String(total).padStart(2, '0')} systems
+        </p>
+      )}
+    </div>
 
-  {hasItems ? (
-    <div class="mt-10 grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((project) => (
-        <article
-          class:list={[
-            "relative group flex min-h-[22rem] flex-col gap-4 rounded-lg border border-line bg-ink-2 p-6",
-            project.featured
-              ? "border-l-4 border-l-amber"
-              : "",
-          ]}
-        >
-          {project.featured && (
-            <span
-              class="absolute top-4 right-4 inline-flex items-center mono text-[0.6rem] uppercase tracking-wider text-amber bg-ink-3 px-2 py-0.5 rounded"
-              aria-hidden="true"
-            >
-              featured
-            </span>
-          )}
-
-          <header class="flex flex-col">
-            <h3
-              class="display text-xl text-paper transition-colors group-hover:text-amber-2 motion-reduce:transition-none"
-            >
-              {project.title}
-            </h3>
-            <p class="mt-1 text-sm text-stone">
-              {project.tagline}
-            </p>
-          </header>
-
-          <p class="text-sm text-paper/80">
-            {project.description}
-          </p>
-
-          <div class="flex flex-wrap gap-1.5">
-            {(project.tech ?? []).map((tech) => (
-              <span class="mono text-[0.7rem] text-stone bg-ink-3 px-2 py-1 rounded">
-                {tech}
+    {hasItems ? (
+      <ol class="flex flex-col">
+        {items.map((project, index) => (
+          <li
+            class:list={[
+              "group grid w-full gap-x-8 gap-y-3 border-line py-8 md:grid-cols-12",
+              index < items.length - 1 ? "border-b" : "",
+            ]}
+          >
+            <!-- index rail -->
+            <div class="flex items-start gap-4 md:col-span-2">
+              <span class="mono text-xs tracking-widest text-amber">
+                {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
               </span>
-            ))}
-          </div>
+            </div>
 
-          <ul class="flex flex-col gap-2">
-            {(project.highlights ?? []).slice(0, 3).map((highlight) => (
-              <li class="flex items-start gap-2 text-sm">
-                <span
-                  aria-hidden="true"
-                  class="mt-0.5 shrink-0 text-amber/80"
-                >▸</span>
-                <span class="text-stone leading-relaxed">{highlight}</span>
-              </li>
-            ))}
-          </ul>
+            <!-- content -->
+            <div class="md:col-span-10">
+              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                <h3 class="display text-2xl leading-tight text-paper transition-colors group-hover:text-amber-2 md:text-3xl motion-reduce:transition-none">
+                  {project.title}
+                </h3>
+                {project.featured && (
+                  <span class="mono text-xs tracking-wider text-amber" aria-label="Featured project">
+                    ★ featured
+                  </span>
+                )}
+              </div>
 
-          {(project.live_url || project.repo_url) && (
-            <div class="mt-auto flex gap-4 pt-2">
-              {project.live_url && (
-                <a
-                  href={project.live_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="mono text-xs text-amber transition-colors hover:text-amber-2 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-ink-2"
-                  aria-label={`Live site for ${project.title}`}
-                >
-                  live
-                </a>
-              )}
-              {project.repo_url && (
-                <a
-                  href={project.repo_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="mono text-xs text-amber transition-colors hover:text-amber-2 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-ink-2"
-                  aria-label={`Source code for ${project.title}`}
-                >
-                  repo
-                </a>
+              <p class="mt-1.5 text-sm text-stone">
+                {project.tagline}
+              </p>
+
+              <p class="mt-3 max-w-3xl text-sm leading-relaxed text-paper/80">
+                {project.description}
+              </p>
+
+              <p class="mono mt-4 text-xs leading-relaxed text-dim">
+                {(project.tech ?? []).join(' · ')}
+              </p>
+
+              <ul class="mt-4 flex flex-col gap-2.5">
+                {(project.highlights ?? []).slice(0, 3).map((highlight) => (
+                  <li class="grid grid-cols-[auto_1fr] gap-3">
+                    <span
+                      aria-hidden="true"
+                      class="mono mt-0.5 text-xs font-medium text-amber"
+                    >
+                      +
+                    </span>
+                    <p class="text-sm leading-relaxed text-paper/85">
+                      {highlight}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+
+              {(project.live_url || project.repo_url) && (
+                <div class="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+                  {project.live_url && (
+                    <a
+                      href={project.live_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="mono text-xs uppercase tracking-wider text-amber transition-colors hover:text-amber-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+                      aria-label={`Live site for ${project.title}`}
+                    >
+                      live ↗
+                    </a>
+                  )}
+                  {project.repo_url && (
+                    <a
+                      href={project.repo_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="mono text-xs uppercase tracking-wider text-stone underline decoration-amber/50 underline-offset-4 transition-colors hover:text-amber focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none"
+                      aria-label={`Source code for ${project.title}`}
+                    >
+                      repo ↗
+                    </a>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </article>
-      ))}
-    </div>
-  ) : (
-    <p class="mt-10 text-center text-stone">
-      Projects loading from CMS
-    </p>
-  )}
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <p class="mt-10 text-center text-stone">
+        Projects loading from CMS
+      </p>
+    )}
+  </div>
 </section>
