@@ -1,39 +1,39 @@
-// Seeds schema via Supabase Management API SQL endpoint (runs as superuser/owner).
-// Usage: SB_MGMT_TOKEN=<sb_secret_...> node scripts/seed-db.mjs
+// Seed script: applies supabase/schema.sql against the Supabase session pooler.
+// Usage: node scripts/seed-db.mjs   (uses env overrides, defaults below)
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import pg from 'pg';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
-const ref = process.env.SB_REF || 'qtvggmghybhjerrgihxh';
-const token = process.env.SB_MGMT_TOKEN;
 
-if (!token) {
-  console.error('SB_MGMT_TOKEN env var is required.');
-  process.exit(1);
-}
+const host = process.env.PGHOST || 'aws-0-ap-northeast-1.pooler.supabase.com';
+const port = Number(process.env.PGPORT || 5432);
+const user = process.env.PGUSER || 'postgres.qtvggmghybhjerrgihxh';
+const password = process.env.PGPASSWORD || 'ak@12port@34';
+const database = process.env.PGDATABASE || 'postgres';
 
-const sql = readFileSync(join(root, 'supabase', 'schema.sql'), 'utf8');
-
-const res = await fetch(`https://api.supabase.com/v1/projects/${ref}/database/query`, {
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json',
+const client = new pg.Client({
+  host,
+  port,
+  user,
+  password,
+  database,
+  ssl: {
+    rejectUnauthorized: false,
+    servername: host, // SNI used by Supabase session pooler to identify the tenant
   },
-  body: JSON.stringify({ query: sql }),
 });
 
-const text = await res.text();
-if (!res.ok) {
-  console.error(`Management API failed (${res.status}):`, text.slice(0, 2000));
-  process.exit(1);
-}
-console.log('Status', res.status);
 try {
-  const j = JSON.parse(text);
-  console.log(Array.isArray(j) ? `OK: query returned ${j.length} row(s).` : j);
-} catch {
-  console.log(text.slice(0, 500) || 'OK (empty response).');
+  await client.connect();
+  const sql = readFileSync(join(root, 'supabase', 'schema.sql'), 'utf8');
+  await client.query(sql);
+  console.log('Schema applied successfully.');
+} catch (err) {
+  console.error('Seed failed:', err.message);
+  process.exitCode = 1;
+} finally {
+  await client.end();
 }
