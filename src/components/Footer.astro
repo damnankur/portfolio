@@ -35,6 +35,8 @@ const year = new Date().getFullYear();
 
     <p class="mono text-xs text-dim">
       © {year} {SITE.email}
+      <span class="mx-1.5 text-line">/</span>
+      <a href={SITE.url} class="transition-colors hover:text-amber focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber motion-reduce:transition-none">{SITE.domain}</a>
     </p>
   </div>
 </footer>

@@ -1,5 +1,5 @@
 ---
-import type { Project } from '../lib/supabase.ts';
+import type { Project } from '../lib/projects.ts';
 
 export interface Props {
   projects?: Project[];
@@ -127,7 +127,7 @@ const total = items.length;
       </ol>
     ) : (
       <p class="mt-10 text-center text-stone">
-        Projects loading from CMS
+        Project details coming soon.
       </p>
     )}
   </div>

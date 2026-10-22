@@ -4,6 +4,8 @@
 
 export const SITE = {
   name: 'Ankur Kumar Singh',
+  domain: 'ankurkumarsingh.tech',
+  url: 'https://ankurkumarsingh.tech',
   role: 'Software Engineering · Distributed Systems',
   blurb:
     'Backend engineer building low-latency, horizontally scalable systems. Distributed messaging, streaming pipelines, and the algorithms that make them fast.',

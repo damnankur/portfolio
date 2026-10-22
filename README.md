@@ -32,7 +32,17 @@ Copy and fill in `.env` (see `.env.example`):
 
 `.env` is git-ignored — never commit secrets.
 
-## Supabase setup (one manual step)
+## Projects data (static first)
+Project content lives in **`src/lib/projects-fallback.ts`** — it ships with the build, so the Projects section can never render blank.
+
+The Supabase CMS is an **optional override**, only consulted when `USE_SUPABASE_CMS=true`, with a 5s timeout and automatic fallback. The previous CMS project was deleted, which is what blanked the section on a fresh build.
+
+To re-enable a CMS later:
+1. Create a Supabase project and run **`supabase/schema.sql`** (creates + seeds `public.projects`, RLS read-only for anon).
+2. Set `USE_SUPABASE_CMS=true` plus `PUBLIC_SUPABASE_URL` / `PUBLIC_SUPABASE_ANON_KEY` in Vercel (both bare `SUPABASE_*` names also work).
+3. Redeploy. If the DB is unreachable, the static ledger is used and the build still succeeds.
+
+## Supabase schema (optional)
 The site reads projects from a `public.projects` table at build time. The schema is not yet applied to your database.
 
 1. Run **`supabase/schema.sql`** in the Supabase dashboard → **SQL Editor** → paste → **Run**.
