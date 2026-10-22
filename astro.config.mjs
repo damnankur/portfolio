@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
-const siteUrl = process.env.SITE_URL || 'https://yourportfolio.vercel.app';
+const siteUrl = process.env.SITE_URL || 'https://ankurkumarsingh.tech';
 
 export default defineConfig({
   site: siteUrl,

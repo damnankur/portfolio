@@ -59,8 +59,17 @@ The schema can also be applied from a Postgres client via the **shared/transacti
    - Root directory: `/` (project root).
 3. Add the environment variables (same as `.env`):
    - `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `RESUME_URL`
-   - To override the production site URL for sitemap/OG meta, set `SITE_URL=https://your-domain.vercel.app` (or custom domain).
+   - `SITE_URL=https://ankurksingh.dev` — used for canonical, OG tags and the sitemap (falls back to `https://ankurksingh.dev`).
 4. **Deploy.** Vercel runs `npm run build` and auto-rebuilds on every `git push`.
+
+## Custom domain
+Production lives at **https://ankurkumarsingh.tech** — a free 1-year `.tech` domain from the GitHub Student Developer Pack (redeemed through get.tech / Radix).
+
+- Vercel project: `portfolio`, domains `ankurkumarsingh.tech` (primary) + `www.ankurkumarsingh.tech` (redirects to apex).
+- DNS at get.tech: `A @ → 76.76.21.21` and `CNAME www → cname.vercel-dns.com` (or point nameservers at `ns1.vercel-dns.com` / `ns2.vercel-dns.com`).
+- `SITE_URL=https://ankurkumarsingh.tech` is set in Vercel production env; it drives canonical, OG tags and the sitemap. Redeploy after changing it.
+
+
 
 > Because the site is fully static, projects render at build time. After editing Supabase data, trigger a redeploy (or use a Vercel webhook) to refresh.
 
