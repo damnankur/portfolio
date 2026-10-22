@@ -1,3 +1,11 @@
 {
-  "framework": "astro"
+  "framework": "astro",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.ankurkumarsingh.tech" }],
+      "destination": "https://ankurkumarsingh.tech/$1",
+      "permanent": true
+    }
+  ]
 }
