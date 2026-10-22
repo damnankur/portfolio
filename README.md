@@ -73,6 +73,15 @@ Production lives at **https://ankurkumarsingh.tech** — a free 1-year `.tech` d
 
 > Because the site is fully static, projects render at build time. After editing Supabase data, trigger a redeploy (or use a Vercel webhook) to refresh.
 
+## Open Graph image
+`public/og.png` (1200×630) is generated from `scripts/og/og-card.html` — edit the HTML then re-render with headless Chrome:
+
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" --headless=new --disable-gpu --hide-scrollbars `
+  --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=6000 `
+  --screenshot="$PWD\public\og.png" "file:///$($PWD.Path -replace '\\','/')/scripts/og/og-card.html"
+```
+
 ## Project layout
 ```
 src/
